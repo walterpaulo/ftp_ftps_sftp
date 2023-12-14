@@ -8,8 +8,8 @@ public class SftpSessionFactoryHandler {
 		factory.setHost("0.0.0.0");
 		factory.setPort(22);
 		factory.setAllowUnknownKeys(true);
-		factory.setUser("walter");
-		factory.setPassword("abc2022");
+		factory.setUser("user");
+		factory.setPassword("123");
 		return factory;
 	}
 }
