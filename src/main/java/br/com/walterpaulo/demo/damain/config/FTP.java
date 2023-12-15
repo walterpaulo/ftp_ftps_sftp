@@ -1,4 +1,4 @@
-package br.com.walterpaulo.demo.config;
+package br.com.walterpaulo.demo.damain.config;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -9,31 +9,33 @@ import java.net.SocketException;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+@Component
 public class FTP {
 	private String servidor;
 	private String usuario;
-	private int port;
+	private int porta;
 	private String senha;
 	private FTPClient ftpClient;
 
-	public FTP() {
-
-	}
-
-	public FTP(String servidorFTP, int port, String usuario, String senha, FTPClient ftpClient) {
-		this.servidor = servidorFTP;
-		this.port = port;
-		this.usuario = usuario;
-		this.senha = senha;
-		this.ftpClient = ftpClient;
-	}
+	 public FTP(@Value("${ftp.servidor}") String servidor,
+             @Value("${ftp.porta}") int porta,
+             @Value("${ftp.usuario}") String usuario,
+             @Value("${ftp.senha}") String senha) {
+      this.servidor = servidor;
+      this.porta = porta;
+      this.usuario = usuario;
+      this.senha = senha;
+      this.ftpClient = new FTPClient();
+  }
 
 //	conectar no servidor
 	public boolean connect() throws SocketException, IOException {
 
 		try {
-			ftpClient.connect(this.servidor, port);
+			ftpClient.connect(this.servidor, porta);
 
 		} catch (Exception e) {
 			// TODO: handle exception

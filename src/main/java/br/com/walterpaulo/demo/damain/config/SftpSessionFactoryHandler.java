@@ -1,4 +1,4 @@
-package br.com.walterpaulo.demo.config.sftp;
+package br.com.walterpaulo.demo.damain.config;
 
 import org.springframework.integration.sftp.session.DefaultSftpSessionFactory;
 
