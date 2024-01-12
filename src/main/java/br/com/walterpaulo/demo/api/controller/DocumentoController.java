@@ -32,4 +32,10 @@ public class DocumentoController {
 	public List<DocumentoResponse> listar() {
 		return documentoService.listarArquivos();
 	}
+
+	@GetMapping("/conectar")
+	public DocumentoResponse conectar() {
+		return documentoService.connectarFTPS();
+
+	}
 }

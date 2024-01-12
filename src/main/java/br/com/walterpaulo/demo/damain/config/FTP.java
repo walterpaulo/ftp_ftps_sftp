@@ -9,6 +9,7 @@ import java.net.SocketException;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
+import org.apache.commons.net.ftp.FTPSClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -19,27 +20,33 @@ public class FTP {
 	private int porta;
 	private String senha;
 	private FTPClient ftpClient;
+	private FTPSClientWithSession ftpClienSession;
 
-	 public FTP(@Value("${ftp.servidor}") String servidor,
-             @Value("${ftp.porta}") int porta,
-             @Value("${ftp.usuario}") String usuario,
-             @Value("${ftp.senha}") String senha) {
-      this.servidor = servidor;
-      this.porta = porta;
-      this.usuario = usuario;
-      this.senha = senha;
-      this.ftpClient = new FTPClient();
-  }
+	public FTP(@Value("${ftp.servidor}") String servidor, @Value("${ftp.porta}") int porta,
+			@Value("${ftp.usuario}") String usuario, @Value("${ftp.senha}") String senha) {
+		this.servidor = servidor;
+		this.porta = porta;
+		this.usuario = usuario;
+		this.senha = senha;
+		this.ftpClient = new FTPSClient();
+		this.ftpClienSession = new FTPSClientWithSession("TLS", true);
+
+	}
 
 //	conectar no servidor
 	public boolean connect() throws SocketException, IOException {
 
 		try {
+//			ftpClient.setStrictReplyParsing(false);
+
+//			ftpClient.setTrustManager(TrustManagerUtils.getAcceptAllTrustManager());
+
 			ftpClient.connect(this.servidor, porta);
 
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+		ftpClient.login(this.usuario, this.senha);
 		// verifica se conectou com sucesso!
 		if (FTPReply.isPositiveCompletion(ftpClient.getReplyCode())) {
 			ftpClient.login(this.usuario, this.senha);
@@ -51,6 +58,32 @@ public class FTP {
 			return false;
 		}
 		return true;
+	}
+
+//	conectar no servidor
+	public boolean connectFTPS() throws SocketException, IOException {
+
+		try {
+			ftpClienSession.setStrictReplyParsing(false);
+			ftpClienSession.setControlEncoding("UTF-8");
+			ftpClienSession.setAutodetectUTF8(false);
+
+			ftpClienSession.connect(this.servidor, this.porta);
+			if (ftpClienSession.isConnected()) {
+
+				if (ftpClienSession.login(this.usuario, this.senha)) {
+					ftpClienSession.disconnect();
+					return true;
+
+				}
+			}
+
+		} catch (Exception e) {
+//			System.out.println("Falha na autenticação no servidor FTPS");
+			ftpClient.disconnect();
+			return false;
+		}
+		return false;
 	}
 
 //	enviar arquivo

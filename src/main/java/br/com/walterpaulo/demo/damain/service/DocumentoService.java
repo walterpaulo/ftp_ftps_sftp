@@ -39,7 +39,8 @@ public class DocumentoService {
 			session.write(resourceAsStream, destination);
 			String donedestination = String.format("upload/done/%s", filename);
 			log.info("Rename file to: " + donedestination);
-			session.rename(destination, donedestination);
+//			session.rename(destination, donedestination);
+			session.exists("/e-Cartas");
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -91,6 +92,17 @@ public class DocumentoService {
 			documentos.add(novo);
 		}
 		return documentos;
+	}
+
+	public DocumentoResponse connectarFTPS() {
+		try {
+			return new DocumentoResponse(this.ftp.connectFTPS() ? "conectou" : "falha");
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return new DocumentoResponse("falha");
+		}
 	}
 
 	public static void criarArquivoTexto(String nomeArquivo, String conteudo) {
