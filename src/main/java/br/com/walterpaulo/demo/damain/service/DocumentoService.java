@@ -16,9 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.sftp.session.SftpSession;
 import org.springframework.stereotype.Service;
 
-import br.com.walterpaulo.demo.damain.config.SftpSessionFactoryHandler;
 import br.com.walterpaulo.demo.api.response.DocumentoResponse;
 import br.com.walterpaulo.demo.damain.config.FTP;
+import br.com.walterpaulo.demo.damain.config.SftpSessionFactoryHandler;
+import br.com.walterpaulo.demo.damain.config.factorymethod.FTPClientFactory;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -27,6 +28,9 @@ public class DocumentoService {
 
 	@Autowired
 	private FTP ftp;
+
+	@Autowired
+	private FTPClientFactory fTPClientFactory;
 
 	public void upload() {
 		SftpSession session = new SftpSessionFactoryHandler().runFactory().getSession();
@@ -97,6 +101,17 @@ public class DocumentoService {
 	public DocumentoResponse connectarFTPS() {
 		try {
 			return new DocumentoResponse(this.ftp.connectFTPS() ? "conectou" : "falha");
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return new DocumentoResponse("falha");
+		}
+	}
+
+	public DocumentoResponse connectarFTPFactory() {
+		try {
+			return new DocumentoResponse(fTPClientFactory.connect() ? "conectou" : "falha");
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

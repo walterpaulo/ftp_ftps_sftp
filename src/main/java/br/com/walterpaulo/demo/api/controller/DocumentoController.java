@@ -38,4 +38,10 @@ public class DocumentoController {
 		return documentoService.connectarFTPS();
 
 	}
+
+	@GetMapping("/conectarFactory")
+	public DocumentoResponse conectarFactory() {
+		return documentoService.connectarFTPFactory();
+
+	}
 }
