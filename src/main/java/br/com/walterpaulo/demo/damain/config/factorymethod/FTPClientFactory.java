@@ -26,7 +26,7 @@ public class FTPClientFactory {
 	}
 
 	public FTPClient createFTPClient(boolean useFTPS) {
-		FTPClientProvider provider;
+		IFTPClientProvider provider;
 		if (useFTPS) {
 			provider = new FTPSProvider("TLS", true);
 		} else {

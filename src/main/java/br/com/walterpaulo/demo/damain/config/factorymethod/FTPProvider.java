@@ -2,7 +2,7 @@ package br.com.walterpaulo.demo.damain.config.factorymethod;
 
 import org.apache.commons.net.ftp.FTPClient;
 
-public class FTPProvider implements FTPClientProvider {
+public class FTPProvider implements IFTPClientProvider {
 
 	@Override
 	public FTPClient createFTPClient() {

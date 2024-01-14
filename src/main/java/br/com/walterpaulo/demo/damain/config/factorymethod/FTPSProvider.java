@@ -13,7 +13,7 @@ import javax.net.ssl.SSLSocket;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPSClient;
 
-public class FTPSProvider extends FTPSClient implements FTPClientProvider {
+public class FTPSProvider extends FTPSClient implements IFTPClientProvider {
 	static {
 		System.setProperty("jdk.tls.useExtendedMasterSecret", "false");
 		System.setProperty("jdk.tls.client.enableSessionTicketExtension", "false");
