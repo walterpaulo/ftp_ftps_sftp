@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class DocumentoResponse {
+public class Response {
 	private String nome;
 
 }

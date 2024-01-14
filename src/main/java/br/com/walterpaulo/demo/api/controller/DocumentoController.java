@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.walterpaulo.demo.api.response.DocumentoResponse;
+import br.com.walterpaulo.demo.api.response.Response;
 import br.com.walterpaulo.demo.damain.service.DocumentoService;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/documento")
 public class DocumentoController {
 
 	@Autowired
@@ -29,18 +29,18 @@ public class DocumentoController {
 	}
 
 	@GetMapping("/listar")
-	public List<DocumentoResponse> listar() {
+	public List<Response> listar() {
 		return documentoService.listarArquivos();
 	}
 
 	@GetMapping("/conectar")
-	public DocumentoResponse conectar() {
+	public Response conectar() {
 		return documentoService.connectarFTPS();
 
 	}
 
 	@GetMapping("/conectarFactory")
-	public DocumentoResponse conectarFactory() {
+	public Response conectarFactory() {
 		return documentoService.connectarFTPFactory();
 
 	}

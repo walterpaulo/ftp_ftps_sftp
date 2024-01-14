@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.sftp.session.SftpSession;
 import org.springframework.stereotype.Service;
 
-import br.com.walterpaulo.demo.api.response.DocumentoResponse;
+import br.com.walterpaulo.demo.api.response.Response;
 import br.com.walterpaulo.demo.damain.config.FTP;
 import br.com.walterpaulo.demo.damain.config.SftpSessionFactoryHandler;
 import br.com.walterpaulo.demo.damain.config.factorymethod.FTPClientFactory;
@@ -87,36 +87,36 @@ public class DocumentoService {
 
 	}
 
-	public List<DocumentoResponse> listarArquivos() {
+	public List<Response> listarArquivos() {
 		FTPFile[] arquivos = ftp.getFTPFiles("/");
-		List<DocumentoResponse> documentos = new ArrayList<DocumentoResponse>();
+		List<Response> documentos = new ArrayList<Response>();
 
 		for (FTPFile ftpFile : arquivos) {
-			DocumentoResponse novo = new DocumentoResponse(ftpFile.getName());
+			Response novo = new Response(ftpFile.getName());
 			documentos.add(novo);
 		}
 		return documentos;
 	}
 
-	public DocumentoResponse connectarFTPS() {
+	public Response connectarFTPS() {
 		try {
-			return new DocumentoResponse(this.ftp.connectFTPS() ? "conectou" : "falha");
+			return new Response(this.ftp.connectFTPS() ? "conectou" : "falha");
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return new DocumentoResponse("falha");
+			return new Response("falha");
 		}
 	}
 
-	public DocumentoResponse connectarFTPFactory() {
+	public Response connectarFTPFactory() {
 		try {
-			return new DocumentoResponse(fTPClientFactory.connect() ? "conectou" : "falha");
+			return new Response(fTPClientFactory.connect() ? "conectou" : "falha");
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return new DocumentoResponse("falha");
+			return new Response("falha");
 		}
 	}
 
